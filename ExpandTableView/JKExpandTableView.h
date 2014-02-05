@@ -162,7 +162,14 @@ typedef enum : NSUInteger {
 
 @property(nonatomic, weak) id<JKExpandTableViewDelegate> tableViewDelegate;
 @property(nonatomic, weak) id<JKExpandTableViewDataSource> dataSourceDelegate;
+@end
 
-- (BOOL)isParentExpandedAtIndex:(int)parentIndex;
-- (JKExpandedTableSelectionIndicatorState)hasSelectedChild:(int)parentIndex;
+@interface JKExpandTableView (CurrentStatus)
+- (BOOL)isParentExpandedAtIndex:(NSInteger)parentIndex;
+- (JKExpandedTableSelectionIndicatorState)hasSelectedChild:(NSInteger)parentIndex;
+@end
+
+@interface JKExpandTableView (StoreAndRetrieve)
+- (void)storeCurrentExpandedParentsInto:(NSUserDefaults*)userDefaults;
+- (void)restoreCurrentExpandedParentsFrom:(NSUserDefaults*)userDefaults;
 @end

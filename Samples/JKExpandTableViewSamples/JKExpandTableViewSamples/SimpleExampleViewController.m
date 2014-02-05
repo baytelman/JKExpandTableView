@@ -31,6 +31,10 @@
 	// Do any additional setup after loading the view from its nib.
 	[self.expandTableView setDataSourceDelegate:self];
 	[self.expandTableView setTableViewDelegate:self];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.expandTableView restoreCurrentExpandedParentsFrom:[NSUserDefaults standardUserDefaults]];
+    });
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,6 +99,9 @@
 - (void)tableView:(UITableView *)tableView didSelectParentCellAtIndex:(NSInteger)parentIndex
 {
 	NSLog(@"Parent selected: data array");
+    
+    [self.expandTableView storeCurrentExpandedParentsInto:[NSUserDefaults standardUserDefaults]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (BOOL)tableView:(UITableView *)tableView handleParentCellSelectionIndicatotTapAtIndex:(NSInteger)parentIndex

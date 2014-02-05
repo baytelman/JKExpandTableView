@@ -40,19 +40,19 @@
 }
 
 /* not working. override animation for insert and delete for custom animation
-   - (void)insertRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation
-   {
-    for (NSIndexPath *indexPath in indexPaths)
-    {
-        UITableViewCell *cell = [self tableView:self cellForRowAtIndexPath:indexPath];
-        [cell setFrame:CGRectMake(320, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
-
-        [UIView beginAnimations:NULL context:nil];
-        [UIView setAnimationDuration:1];
-        [cell setFrame:CGRectMake(0, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
-        [UIView commitAnimations];
-    }
-   }
+ - (void)insertRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation
+ {
+ for (NSIndexPath *indexPath in indexPaths)
+ {
+ UITableViewCell *cell = [self tableView:self cellForRowAtIndexPath:indexPath];
+ [cell setFrame:CGRectMake(320, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
+ 
+ [UIView beginAnimations:NULL context:nil];
+ [UIView setAnimationDuration:1];
+ [cell setFrame:CGRectMake(0, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
+ [UIView commitAnimations];
+ }
+ }
  */
 
 - (void)initialize
@@ -80,37 +80,29 @@
 	}
 }
 
-- (BOOL)isParentExpandedAtIndex:(int)parentIndex
-{
-    if (parentIndex < 0 || parentIndex >= self.expansionStates.count) {
-        return NO;
-    }
-    return [self.expansionStates[parentIndex] boolValue];
-}
-
 - (void)expandForParentAtRow:(NSInteger)row
 {
 	NSUInteger parentIndex = [self parentIndexForRow:row];
-
+    
 	if ([self isParentExpandedAtIndex:parentIndex]) {
 		return;
 	}
 	// update expansionStates so backing data is ready before calling insertRowsAtIndexPaths
 	[self.expansionStates replaceObjectAtIndex:parentIndex withObject:@"YES"];
-
+    
 	[self insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:(row + 1) inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (void)collapseForParentAtRow:(NSInteger)row
 {
 	NSUInteger parentIndex = [self parentIndexForRow:row];
-
+    
 	if (![self isParentExpandedAtIndex:parentIndex]) {
 		return;
 	}
 	// update expansionStates so backing data is ready before calling deleteRowsAtIndexPaths
 	[self.expansionStates replaceObjectAtIndex:parentIndex withObject:@"NO"];
-
+    
 	[self deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:(row + 1) inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
 }
 
@@ -132,11 +124,11 @@
 {
 	NSUInteger row = 0;
 	NSUInteger currentParentIndex = 0;
-
+    
 	if (parentIndex == 0) {
 		return 0;
 	}
-
+    
 	while (currentParentIndex < parentIndex) {
 		BOOL expanded = [self isParentExpandedAtIndex:currentParentIndex];
 		if (expanded) {
@@ -151,9 +143,9 @@
 - (NSUInteger)parentIndexForRow:(NSUInteger)row
 {
 	NSUInteger parentIndex = -1;
-
+    
 	NSUInteger i = 0;
-
+    
 	while (i <= row) {
 		parentIndex++;
 		i++;
@@ -188,7 +180,7 @@
 	NSInteger parentCount = [self.dataSourceDelegate numberOfParentCells];
 	NSCountedSet *countedSet = [[NSCountedSet alloc] initWithArray:self.expansionStates];
 	NSUInteger expandedParentCount = [countedSet countForObject:@"YES"];
-
+    
 	return parentCount + expandedParentCount;
 }
 
@@ -197,11 +189,11 @@
 	static NSString *CellIdentifier_Parent = @"CellReuseId_Parent";
 	static NSString *CellIdentifier_MultiSelect = @"CellReuseId_MultiSelectExpand";
 	static NSString *CellIdentifier_SingleSelect = @"CellReuseId_SingleSelectExpand";
-
+    
 	NSInteger row = indexPath.row;
 	NSUInteger parentIndex = [self parentIndexForRow:row];
 	BOOL isExpansionCell = [self isExpansionCell:row];
-
+    
 	if (isExpansionCell) {
 		BOOL isMultiSelect = [self.tableViewDelegate shouldSupportMultipleSelectableChildrenAtParentIndex:parentIndex];
 		if (isMultiSelect) {
@@ -211,21 +203,21 @@
 			} else {
 				NSLog(@"reusing existing JKMultiSelectSubTableViewCell");
 			}
-
+            
 			if ([self.tableViewDelegate respondsToSelector:@selector(backgroundColor)]) {
 				UIColor *bgColor = [self.tableViewDelegate backgroundColor];
 				[cell setSubTableBackgroundColor:bgColor];
 			}
-
+            
 			if ([self.tableViewDelegate respondsToSelector:@selector(foregroundColor)]) {
 				UIColor *fgColor = [self.tableViewDelegate foregroundColor];
 				[cell setSubTableForegroundColor:fgColor];
 			}
-
+            
 			if ([self.tableViewDelegate respondsToSelector:@selector(selectionIndicatorIcon)]) {
 				[cell setSelectionIndicatorImg:[self.tableViewDelegate selectionIndicatorIcon]];
 			}
-
+            
 			NSLog(@"cellForRowAtIndexPath MultiSelect parentIndex: %d", parentIndex);
 			[cell setParentIndex:parentIndex];
 			[cell setDelegate:self];
@@ -238,26 +230,26 @@
 			} else {
 				NSLog(@"reusing existing JKSingleSelectSubTableViewCell");
 			}
-
+            
 			if ([self.tableViewDelegate respondsToSelector:@selector(backgroundColor)]) {
 				UIColor *bgColor = [self.tableViewDelegate backgroundColor];
 				[cell setSubTableBackgroundColor:bgColor];
 			}
-
+            
 			if ([self.tableViewDelegate respondsToSelector:@selector(foregroundColor)]) {
 				UIColor *fgColor = [self.tableViewDelegate foregroundColor];
 				[cell setSubTableForegroundColor:fgColor];
 			}
-
+            
 			if ([self.tableViewDelegate respondsToSelector:@selector(selectionIndicatorIcon)]) {
 				[cell setSelectionIndicatorImg:[self.tableViewDelegate selectionIndicatorIcon]];
 			}
-
+            
 			if ([self.tableViewDelegate respondsToSelector:@selector(fontForChildren)]) {
 				UIFont *font = [self.tableViewDelegate fontForChildren];
 				[cell setSubTableFont:font];
 			}
-
+            
 			NSLog(@"cellForRowAtIndexPath SingleSelect parentIndex: %d", parentIndex);
 			[cell setParentIndex:parentIndex];
 			[cell setDelegate:self];
@@ -272,50 +264,50 @@
 		} else {
 			NSLog(@"reusing existing JKParentTableViewCell");
 		}
-
+        
 		if ([self.tableViewDelegate respondsToSelector:@selector(backgroundColor)]) {
 			UIColor *bgColor = [self.tableViewDelegate backgroundColor];
 			[cell setCellBackgroundColor:bgColor];
 		}
-
+        
 		if ([self.tableViewDelegate respondsToSelector:@selector(foregroundColor)]) {
 			UIColor *fgColor = [self.tableViewDelegate foregroundColor];
 			[cell setCellForegroundColor:fgColor];
 		}
-
+        
 		if ([self.tableViewDelegate respondsToSelector:@selector(displaysPartialSelectionIndicator)]) {
 			[cell setDisplaysPartialSelectionIndicator:[self.tableViewDelegate displaysPartialSelectionIndicator]];
 		}
-
+        
 		if ([self.tableViewDelegate respondsToSelector:@selector(partialSelectionIndicatorIcon)]) {
 			[cell setPartialSelectionIndicatorImg:[self.tableViewDelegate partialSelectionIndicatorIcon]];
 		}
-
+        
 		if ([self.tableViewDelegate respondsToSelector:@selector(selectionIndicatorIcon)]) {
 			[cell setSelectionIndicatorImg:[self.tableViewDelegate selectionIndicatorIcon]];
 		}
-
+        
 		if ([self.tableViewDelegate respondsToSelector:@selector(fontForParents)]) {
 			UIFont *font = [self.tableViewDelegate fontForParents];
 			[cell.label setFont:font];
 		}
-
+        
 		NSString *labelStr = [self.dataSourceDelegate labelForParentCellAtIndex:parentIndex];
 		[[cell label] setText:labelStr];
-
+        
 		if ([self.dataSourceDelegate respondsToSelector:@selector(iconForParentCellAtIndex:)]) {
 			UIImage *icon = [self.dataSourceDelegate iconForParentCellAtIndex:parentIndex];
 			[[cell iconImage] setImage:icon];
 		}
-
+        
 		[cell setParentIndex:parentIndex];
 		[cell setSelectionIndicatorState:[self hasSelectedChild:parentIndex]];
-
+        
 		[cell.selectionIndicatorImgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(parentCellSelectionIndicatorWasTapped:)]];
 		cell.selectionIndicatorImgView.userInteractionEnabled = YES;
-
+        
 		// [cell setupDisplay];
-
+        
 		return cell;
 	}
 }
@@ -324,7 +316,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSInteger row = indexPath.row;
-
+    
 	NSLog(@"heightForRowAtIndexPath row: %d", row);
 	// if cell is expanded, the cell height would be a multiple of the number of child cells
 	BOOL isExpansionCell = [self isExpansionCell:row];
@@ -342,20 +334,20 @@
 	if (gesture.state != UIGestureRecognizerStateRecognized) {
 		return;
 	}
-
+    
 	UIView *aView = gesture.view;
 	while (aView && ![aView isKindOfClass:[JKParentTableViewCell class]])
 		aView = aView.superview;
-
+    
 	if ([aView isKindOfClass:[JKParentTableViewCell class]]) {
 		JKParentTableViewCell *pCell = (JKParentTableViewCell *)aView;
-
+        
 		if ([self.tableViewDelegate respondsToSelector:@selector(tableView:handleParentCellSelectionIndicatotTapAtIndex:)]) {
 			if ([self.tableViewDelegate tableView:self handleParentCellSelectionIndicatotTapAtIndex:[pCell parentIndex]]) {
 				return;
 			}
 		}
-
+        
 		// else, if not handled or doesn't respond to:
 		[self tableView:self didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:[pCell parentIndex] inSection:0]];
 	}
@@ -365,10 +357,10 @@
 {
 	// if parent , expand/collpase then notify delegate (always check respond to selector)
 	UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-
+    
 	if ([selectedCell isKindOfClass:[JKParentTableViewCell class]]) {
 		JKParentTableViewCell *pCell = (JKParentTableViewCell *)selectedCell;
-
+        
 		if ([self isParentExpandedAtIndex:[pCell parentIndex]]) {
 			[self collapseForParentAtRow:indexPath.row];
 			[self animateParentCellIconExpand:NO forCell:pCell];              // TODO handle the case where there is no child.
@@ -376,7 +368,7 @@
 			[self expandForParentAtRow:indexPath.row];
 			[self animateParentCellIconExpand:YES forCell:pCell];
 		}
-
+        
 		if ([self.tableViewDelegate respondsToSelector:@selector(tableView:didSelectParentCellAtIndex:)]) {
 			[self.tableViewDelegate tableView:tableView didSelectParentCellAtIndex:[pCell parentIndex]];
 		}
@@ -401,19 +393,19 @@
 				underParentIndex:(NSInteger)parentIndex
 {
 	// check if at least one child is selected.  if yes, set the parent checkmark to indicate at least one chlid selected
-
+    
 	if (isSwitchedOn &&
 		[self.tableViewDelegate respondsToSelector:@selector(tableView:didSelectCellAtChildIndex:withInParentCellIndex:)])
 	{
 		[self.tableViewDelegate tableView:self didSelectCellAtChildIndex:childIndex withInParentCellIndex:parentIndex];
 	}
-
+    
 	if (!isSwitchedOn &&
 		[self.tableViewDelegate respondsToSelector:@selector(tableView:didDeselectCellAtChildIndex:withInParentCellIndex:)])
 	{
 		[self.tableViewDelegate tableView:self didDeselectCellAtChildIndex:childIndex withInParentCellIndex:parentIndex];
 	}
-
+    
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self rowForParentIndex:parentIndex] inSection:0];
 	UITableViewCell *selectedCell = [self cellForRowAtIndexPath:indexPath];
 	if ([selectedCell isKindOfClass:[JKParentTableViewCell class]]) {
@@ -436,15 +428,26 @@
 	}
 }
 
-- (JKExpandedTableSelectionIndicatorState)hasSelectedChild:(int)parentIndex
+@end
+
+@implementation JKExpandTableView (CurrentStatus)
+- (BOOL)isParentExpandedAtIndex:(NSInteger)parentIndex
+{
+    if (parentIndex < 0 || parentIndex >= self.expansionStates.count) {
+        return NO;
+    }
+    return [self.expansionStates[parentIndex] boolValue];
+}
+
+- (JKExpandedTableSelectionIndicatorState)hasSelectedChild:(NSInteger)parentIndex
 {
 	NSInteger numberOfChildren = [self.dataSourceDelegate numberOfChildCellsUnderParentIndex:parentIndex];
 	NSInteger numberOfSelectedChildren = 0;
-
+    
 	for (int i = 0; i < numberOfChildren; i++) {
 		if ([self.dataSourceDelegate shouldDisplaySelectedStateForCellAtChildIndex:i withinParentCellIndex:parentIndex]) {
 			++numberOfSelectedChildren;
-
+            
 			if (![self.tableViewDelegate respondsToSelector:@selector(displaysPartialSelectionIndicator)] || ![self.tableViewDelegate displaysPartialSelectionIndicator]) {
 				return JKExpandedTableSelectionIndicatorAll;
 			}
@@ -458,5 +461,46 @@
 	}
 	return JKExpandedTableSelectionIndicatorPartial;
 }
+@end
 
+@implementation JKExpandTableView (StoreAndRetrieve)
+- (NSString*)_strip:(NSString*)string
+{
+    NSString *allowed = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-0123456789";
+    NSCharacterSet *notAllowedChars = [[NSCharacterSet characterSetWithCharactersInString:allowed] invertedSet];
+    return [[string componentsSeparatedByCharactersInSet:notAllowedChars] componentsJoinedByString:@""];
+}
+- (void)storeCurrentExpandedParentsInto:(NSUserDefaults*)userDefaults
+{
+    for (NSInteger i = 0; i < [self.dataSourceDelegate numberOfParentCells]; i++) {
+        NSString * label = [self.dataSourceDelegate labelForParentCellAtIndex:i];
+        if (label) {
+            label = [NSString stringWithFormat:@"com.jkexpandedtableview.storedstate.%@", [self _strip:label]];
+            BOOL expand = [self isParentExpandedAtIndex:i];
+            [userDefaults setBool:expand forKey:label];
+        }
+    }
+}
+- (void)restoreCurrentExpandedParentsFrom:(NSUserDefaults*)userDefaults
+{
+    for (NSInteger i = 0; i < [self.dataSourceDelegate numberOfParentCells]; i++) {
+        NSString * label = [self.dataSourceDelegate labelForParentCellAtIndex:i];
+        if (label) {
+            label = [NSString stringWithFormat:@"com.jkexpandedtableview.storedstate.%@", [self _strip:label]];
+            BOOL expand = [userDefaults boolForKey:label];
+            if (expand) {
+                NSInteger cellIndex = [self rowForParentIndex:i];
+                [self expandForParentAtRow:cellIndex];
+                UITableViewCell *selectedCell = [self cellForRowAtIndexPath:[NSIndexPath indexPathForRow:cellIndex inSection:0]];
+                
+                if ([selectedCell isKindOfClass:[JKParentTableViewCell class]]) {
+                    JKParentTableViewCell *pCell = (JKParentTableViewCell *)selectedCell;
+                    
+                    [self animateParentCellIconExpand:YES forCell:pCell];
+                    
+                }
+            }
+        }
+    }
+}
 @end
