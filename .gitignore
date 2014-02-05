@@ -16,3 +16,10 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+Samples/JKExpandTableViewSamples/CodeFormatter/Uncrustify_opened_Xcode_sources.workflow/Contents/Info.plist
+Samples/JKExpandTableViewSamples/CodeFormatter/Uncrustify_opened_Xcode_sources.workflow/Contents/QuickLook/Thumbnail.png
+Samples/JKExpandTableViewSamples/CodeFormatter/Uncrustify_opened_Xcode_sources.workflow/Contents/document.wflow
+Samples/JKExpandTableViewSamples/CodeFormatter/howTo.md
+Samples/JKExpandTableViewSamples/CodeFormatter/scripts/formatAllSources.sh
+Samples/JKExpandTableViewSamples/CodeFormatter/scripts/formatOpenedSources.sh
+Samples/JKExpandTableViewSamples/CodeFormatter/uncrustify_objective_c.cfg
