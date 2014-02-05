@@ -167,6 +167,7 @@ typedef enum : NSUInteger {
 @interface JKExpandTableView (CurrentStatus)
 - (BOOL)isParentExpandedAtIndex:(NSInteger)parentIndex;
 - (JKExpandedTableSelectionIndicatorState)hasSelectedChild:(NSInteger)parentIndex;
+- (void)toggleSelectionForParentAtIndex:(NSInteger)parentIndex;
 @end
 
 @interface JKExpandTableView (StoreAndRetrieve)

@@ -461,6 +461,26 @@
 	}
 	return JKExpandedTableSelectionIndicatorPartial;
 }
+
+- (void)toggleSelectionForParentAtIndex:(NSInteger)parentIndex
+{
+    BOOL target = YES;
+    if ([self hasSelectedChild:parentIndex] == JKExpandedTableSelectionIndicatorAll) {
+        target = NO;
+    }
+    for (NSInteger childIndex = 0; childIndex < [self.dataSourceDelegate numberOfChildCellsUnderParentIndex:parentIndex]; childIndex++) {
+        if (target) {
+            if ([self.tableViewDelegate respondsToSelector:@selector(tableView:didSelectCellAtChildIndex:withInParentCellIndex:)]) {
+                [self.tableViewDelegate tableView:self didSelectCellAtChildIndex:childIndex withInParentCellIndex:parentIndex];
+            }
+            
+        } else {
+            if ([self.tableViewDelegate respondsToSelector:@selector(tableView:didDeselectCellAtChildIndex:withInParentCellIndex:)]) {
+                [self.tableViewDelegate tableView:self didDeselectCellAtChildIndex:childIndex withInParentCellIndex:parentIndex];
+            }
+        }
+    }
+}
 @end
 
 @implementation JKExpandTableView (StoreAndRetrieve)
