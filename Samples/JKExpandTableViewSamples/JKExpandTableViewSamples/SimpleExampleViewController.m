@@ -112,7 +112,7 @@
         if ([expandTableView hasSelectedChild:parentIndex] == JKExpandedTableSelectionIndicatorAll) {
             target = NO;
         }
-        for (int childIndex = 0; childIndex < [[self.dataModelArray objectAtIndex:parentIndex] count]; childIndex++) {
+        for (NSInteger childIndex = 0; childIndex < [[self.dataModelArray objectAtIndex:parentIndex] count]; childIndex++) {
             self.dataModelArray[parentIndex][childIndex] = @(target);
         }
         [expandTableView reloadData];

@@ -75,7 +75,7 @@
 {
 	// all collapsed initially
 	self.expansionStates = [[NSMutableArray alloc] initWithCapacity:[self.dataSourceDelegate numberOfParentCells]];
-	for (int i = 0; i < [self.dataSourceDelegate numberOfParentCells]; i++) {
+	for (NSInteger i = 0; i < [self.dataSourceDelegate numberOfParentCells]; i++) {
 		[self.expansionStates addObject:@"NO"];
 	}
 }
@@ -444,7 +444,7 @@
 	NSInteger numberOfChildren = [self.dataSourceDelegate numberOfChildCellsUnderParentIndex:parentIndex];
 	NSInteger numberOfSelectedChildren = 0;
     
-	for (int i = 0; i < numberOfChildren; i++) {
+	for (NSInteger i = 0; i < numberOfChildren; i++) {
 		if ([self.dataSourceDelegate shouldDisplaySelectedStateForCellAtChildIndex:i withinParentCellIndex:parentIndex]) {
 			++numberOfSelectedChildren;
             
