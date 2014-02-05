@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "JKExpandTableView.h"
+
 @interface JKParentTableViewCell : UITableViewCell {
     UIImageView *iconImage;
     UILabel *label;
@@ -24,17 +26,11 @@
 @property (nonatomic,strong) UIImageView *selectionIndicatorImgView;
 @property (nonatomic) NSInteger parentIndex;
 
-typedef enum : NSUInteger {
-    JKParentSelectionIndicatorNone,
-    JKParentSelectionIndicatorAll,
-    JKParentSelectionIndicatorPartial,
-} JKParentSelectionIndicatorState;
-
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 - (void)setupDisplay;
 - (void)rotateIconToExpanded;
 - (void)rotateIconToCollapsed;
-- (void)selectionIndicatorState:(JKParentSelectionIndicatorState)state;
+- (void)setSelectionIndicatorState:(JKExpandedTableSelectionIndicatorState)state;
 - (void)setCellForegroundColor:(UIColor *) foregroundColor;
 - (void)setCellBackgroundColor:(UIColor *) backgroundColor;
 

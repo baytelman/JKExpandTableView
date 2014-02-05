@@ -151,10 +151,18 @@
 - (BOOL)shouldRotateIconForParentOnToggle;
 @end
 
+typedef enum : NSUInteger {
+    JKExpandedTableSelectionIndicatorNone,
+    JKExpandedTableSelectionIndicatorAll,
+    JKExpandedTableSelectionIndicatorPartial,
+} JKExpandedTableSelectionIndicatorState;
+
 @interface JKExpandTableView : UITableView
 	<UITableViewDataSource, UITableViewDelegate, JKSubTableViewCellDelegate>
 
 @property(nonatomic, weak) id<JKExpandTableViewDelegate> tableViewDelegate;
 @property(nonatomic, weak) id<JKExpandTableViewDataSource> dataSourceDelegate;
+
 - (BOOL)isParentExpandedAtIndex:(int)parentIndex;
+- (JKExpandedTableSelectionIndicatorState)hasSelectedChild:(int)parentIndex;
 @end

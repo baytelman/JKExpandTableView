@@ -309,7 +309,7 @@
 		}
 
 		[cell setParentIndex:parentIndex];
-		[cell selectionIndicatorState:[self hasSelectedChild:parentIndex]];
+		[cell setSelectionIndicatorState:[self hasSelectedChild:parentIndex]];
 
 		[cell.selectionIndicatorImgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(parentCellSelectionIndicatorWasTapped:)]];
 		cell.selectionIndicatorImgView.userInteractionEnabled = YES;
@@ -418,7 +418,7 @@
 	UITableViewCell *selectedCell = [self cellForRowAtIndexPath:indexPath];
 	if ([selectedCell isKindOfClass:[JKParentTableViewCell class]]) {
 		JKParentTableViewCell *pCell = (JKParentTableViewCell *)selectedCell;
-		[pCell selectionIndicatorState:[self hasSelectedChild:parentIndex]];
+		[pCell setSelectionIndicatorState:[self hasSelectedChild:parentIndex]];
 	}
 }
 
@@ -436,7 +436,7 @@
 	}
 }
 
-- (BOOL)hasSelectedChild:(JKParentSelectionIndicatorState)parentIndex
+- (JKExpandedTableSelectionIndicatorState)hasSelectedChild:(int)parentIndex
 {
 	NSInteger numberOfChildren = [self.dataSourceDelegate numberOfChildCellsUnderParentIndex:parentIndex];
 	NSInteger numberOfSelectedChildren = 0;
@@ -446,17 +446,17 @@
 			++numberOfSelectedChildren;
 
 			if (![self.tableViewDelegate respondsToSelector:@selector(displaysPartialSelectionIndicator)] || ![self.tableViewDelegate displaysPartialSelectionIndicator]) {
-				return JKParentSelectionIndicatorAll;
+				return JKExpandedTableSelectionIndicatorAll;
 			}
 		}
 	}
 	if (numberOfSelectedChildren == 0) {
-		return JKParentSelectionIndicatorNone;
+		return JKExpandedTableSelectionIndicatorNone;
 	}
 	if (numberOfSelectedChildren == numberOfChildren) {
-		return JKParentSelectionIndicatorAll;
+		return JKExpandedTableSelectionIndicatorAll;
 	}
-	return JKParentSelectionIndicatorPartial;
+	return JKExpandedTableSelectionIndicatorPartial;
 }
 
 @end
