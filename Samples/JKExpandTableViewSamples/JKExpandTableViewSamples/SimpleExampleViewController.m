@@ -97,6 +97,11 @@
 	NSLog(@"Parent selected: data array");
 }
 
+- (BOOL)tableView:(UITableView *)tableView handleParentCellSelectionIndicatotTapAtIndex:(NSInteger)parentIndex
+{
+	return [expandTableView isParentExpandedAtIndex:parentIndex];
+}
+
 /*
    - (UIColor *) foregroundColor {
     return [UIColor darkTextColor];
@@ -174,7 +179,7 @@
 
 - (BOOL)displaysPartialSelectionIndicator
 {
-    return YES;
+	return YES;
 }
 
 @end

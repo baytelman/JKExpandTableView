@@ -18,6 +18,7 @@
 @property (nonatomic,strong) UIImageView *iconImage;
 @property (nonatomic,strong) UILabel *label;
 @property (nonatomic,strong) UIImage *selectionIndicatorImg;
+@property (nonatomic,strong) UIImage *noneSelectionIndicatorImg;
 @property (nonatomic) BOOL displaysPartialSelectionIndicator;
 @property (nonatomic,strong) UIImage *partialSelectionIndicatorImg;
 @property (nonatomic,strong) UIImageView *selectionIndicatorImgView;

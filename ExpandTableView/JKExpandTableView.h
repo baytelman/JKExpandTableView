@@ -42,6 +42,12 @@
  */
 - (void)tableView:(UITableView *)tableView didSelectParentCellAtIndex:(NSInteger)parentIndex;
 
+/*! Optional method to handle when user taps the selection icon. Return NO to allow expand/collapse. Default NO.
+
+   @param parentIndex The parent index in question
+ */
+- (BOOL)tableView:(UITableView *)tableView handleParentCellSelectionIndicatotTapAtIndex:(NSInteger)parentIndex;
+
 
 /*! Optional method to set custom foreground color.
 
@@ -58,14 +64,19 @@
    @return UIImage
  */
 - (UIImage *)selectionIndicatorIcon;
-/*! Optional method to display a partial indicator when only some childs are selected.
+/*! Optional method to display a 'none' indicator when no childs are selected.
  
+ @return UIImage
+ */
+- (UIImage *)noneSelectionIndicatorIcon;
+/*! Optional method to display a partial indicator when only some childs are selected.
+
  @return UIImage
  */
 - (BOOL)displaysPartialSelectionIndicator;
 /*! Optional method to set a custom partial selection indicator icon.
- 
- @return UIImage
+
+   @return UIImage
  */
 - (UIImage *)partialSelectionIndicatorIcon;
 /*! Optional method to set custom font for the labels on the Parent cells.
@@ -141,14 +152,9 @@
 @end
 
 @interface JKExpandTableView : UITableView
-	<UITableViewDataSource, UITableViewDelegate, JKSubTableViewCellDelegate> {
-	__weak id tableViewDelegate;
-	__weak id dataSourceDelegate;
-	NSMutableArray *expansionStates;
-}
+	<UITableViewDataSource, UITableViewDelegate, JKSubTableViewCellDelegate>
 
 @property(nonatomic, weak) id<JKExpandTableViewDelegate> tableViewDelegate;
-@property(nonatomic, weak, getter = getDataSourceDelegate, setter = setDataSourceDelegate :) id<JKExpandTableViewDataSource> dataSourceDelegate;
-@property(nonatomic, strong) NSMutableArray *expansionStates;
-
+@property(nonatomic, weak) id<JKExpandTableViewDataSource> dataSourceDelegate;
+- (BOOL)isParentExpandedAtIndex:(int)parentIndex;
 @end

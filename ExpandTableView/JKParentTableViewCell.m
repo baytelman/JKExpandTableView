@@ -35,10 +35,24 @@
 	[self.contentView addSubview:label];
 
 	self.selectionIndicatorImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
-	// [self.selectionIndicatorImgView setContentMode:UIViewContentModeCenter];
+
 	[self.contentView addSubview:selectionIndicatorImgView];
+	[self setupImages];
 
 	return self;
+}
+
+- (void)setupImages
+{
+	if (!self.selectionIndicatorImg) {
+		self.selectionIndicatorImg = [UIImage imageNamed:@"checkmark"];
+	}
+	if (!self.partialSelectionIndicatorImg) {
+		self.partialSelectionIndicatorImg = [UIImage imageNamed:@"partial"];
+	}
+	if (!self.noneSelectionIndicatorImg) {
+		self.noneSelectionIndicatorImg = [UIImage imageNamed:@"none"];
+	}
 }
 
 - (void)layoutSubviews
@@ -54,16 +68,22 @@
 	CGFloat contentAreaHeight = self.contentView.bounds.size.height;
 	CGFloat checkMarkHeight = 0.0;
 	CGFloat checkMarkWidth = 0.0;
-	CGFloat iconHeight = 0.0; //  set this according to icon
+	CGFloat iconHeight = 0.0;                     //  set this according to icon
 	CGFloat iconWidth = 0.0;
 
 	if (self.iconImage.image) {
 		iconWidth = MIN(contentAreaWidth, self.iconImage.image.size.width);
 		iconHeight = MIN(contentAreaHeight, self.iconImage.image.size.height);
 	}
-	if (self.selectionIndicatorImgView.image) {
-		checkMarkWidth = MIN(contentAreaWidth, self.selectionIndicatorImgView.image.size.width);
-		checkMarkHeight = MIN(contentAreaHeight, self.selectionIndicatorImgView.image.size.height);
+
+
+	UIImage *img = self.selectionIndicatorImgView.image;
+	if (!img) {
+		img = self.selectionIndicatorImg;
+	}
+	if (img) {
+		checkMarkWidth = MIN(contentAreaWidth, img.size.width);
+		checkMarkHeight = MIN(contentAreaHeight, img.size.height);
 	}
 
 	CGFloat sidePadding = 6.0;
@@ -101,13 +121,6 @@
 
 - (void)selectionIndicatorState:(JKParentSelectionIndicatorState)state
 {
-	if (!self.selectionIndicatorImg) {
-		self.selectionIndicatorImg = [UIImage imageNamed:@"checkmark"];
-	}
-	if (self.displaysPartialSelectionIndicator && !self.partialSelectionIndicatorImg) {
-		self.partialSelectionIndicatorImg = [UIImage imageNamed:@"partial"];
-	}
-
 	if (state == JKParentSelectionIndicatorPartial && !self.displaysPartialSelectionIndicator) {
 		state = JKParentSelectionIndicatorAll;
 	}
@@ -115,16 +128,15 @@
 	switch (state) {
 		case JKParentSelectionIndicatorAll :
 			self.selectionIndicatorImgView.image = self.selectionIndicatorImg;
-			self.selectionIndicatorImgView.hidden = NO;
 			[self setNeedsLayout];
 			break;
 		case JKParentSelectionIndicatorPartial :
 			self.selectionIndicatorImgView.image = self.partialSelectionIndicatorImg;
-			self.selectionIndicatorImgView.hidden = NO;
 			[self setNeedsLayout];
 			break;
 		default :
-			self.selectionIndicatorImgView.hidden = YES;
+			self.selectionIndicatorImgView.image = self.noneSelectionIndicatorImg;
+			[self setNeedsLayout];
 			break;
 	}
 }
