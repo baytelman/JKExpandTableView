@@ -10,134 +10,145 @@
 #import "JKMultiSelectSubTableViewCell.h"
 
 /*!
- @protocol JKExpandTableViewDelegate
- @discussion Users of this class must implement this protocol.
+   @protocol JKExpandTableViewDelegate
+   @discussion Users of this class must implement this protocol.
  */
 @protocol JKExpandTableViewDelegate <NSObject>
 @required
 
 /*! Within a single JKExpandTableView, it is permissible to have a mix of multi-selectables and non-multi-selectables.
- 
- @param parentIndex The parent index in question
- @return YES if more than one child under this parent can be selected at the same time.  Otherwise, return NO.
+
+   @param parentIndex The parent index in question
+   @return YES if more than one child under this parent can be selected at the same time.  Otherwise, return NO.
  */
-- (BOOL) shouldSupportMultipleSelectableChildrenAtParentIndex:(NSInteger) parentIndex;
+- (BOOL)shouldSupportMultipleSelectableChildrenAtParentIndex:(NSInteger)parentIndex;
 
 @optional
 /*! Optional method the delegate should implement to get notified when a child is clicked on.
 
- @param childIndex The child index in question
- @param parentIndex The parent index in question
+   @param childIndex The child index in question
+   @param parentIndex The parent index in question
  */
-- (void) tableView:(UITableView *)tableView didSelectCellAtChildIndex:(NSInteger) childIndex withInParentCellIndex:(NSInteger) parentIndex;
+- (void)tableView:(UITableView *)tableView didSelectCellAtChildIndex:(NSInteger)childIndex withInParentCellIndex:(NSInteger)parentIndex;
 /*! Optional method the delegate should implement to get notified when a child is clicked on.
- 
- @param childIndex The child index in question
- @param parentIndex The parent index in question
+
+   @param childIndex The child index in question
+   @param parentIndex The parent index in question
  */
-- (void) tableView:(UITableView *)tableView didDeselectCellAtChildIndex:(NSInteger) childIndex withInParentCellIndex:(NSInteger) parentIndex;
+- (void)tableView:(UITableView *)tableView didDeselectCellAtChildIndex:(NSInteger)childIndex withInParentCellIndex:(NSInteger)parentIndex;
 /*! Optional method to get notified when a parent is clicked on.
- 
-  @param parentIndex The parent index in question
+
+   @param parentIndex The parent index in question
  */
-- (void) tableView:(UITableView *)tableView didSelectParentCellAtIndex:(NSInteger) parentIndex;
+- (void)tableView:(UITableView *)tableView didSelectParentCellAtIndex:(NSInteger)parentIndex;
+
 
 /*! Optional method to set custom foreground color.
- 
- @return UIColor 
+
+   @return UIColor
  */
-- (UIColor *) foregroundColor;
+- (UIColor *)foregroundColor;
 /*! Optional method to set custom foreground color.
- 
- @return UIColor
+
+   @return UIColor
  */
-- (UIColor *) backgroundColor;
+- (UIColor *)backgroundColor;
 /*! Optional method to set a custom selection indicator icon.
+
+   @return UIImage
+ */
+- (UIImage *)selectionIndicatorIcon;
+/*! Optional method to display a partial indicator when only some childs are selected.
  
  @return UIImage
  */
-- (UIImage *) selectionIndicatorIcon;
+- (BOOL)displaysPartialSelectionIndicator;
+/*! Optional method to set a custom partial selection indicator icon.
+ 
+ @return UIImage
+ */
+- (UIImage *)partialSelectionIndicatorIcon;
 /*! Optional method to set custom font for the labels on the Parent cells.
 
- @return UIFont for the label on the parent cells
+   @return UIFont for the label on the parent cells
  */
-- (UIFont *) fontForParents;
+- (UIFont *)fontForParents;
 /*! Optional method to set custom Font for the labels on the Children cells.
- 
- @return UIFont for the label on the children cells
+
+   @return UIFont for the label on the children cells
  */
-- (UIFont *) fontForChildren;
+- (UIFont *)fontForChildren;
 @end
 
 /*!
- @protocol JKExpandTableViewDataSource
- @discussion Users of this class must implement this protocol.
+   @protocol JKExpandTableViewDataSource
+   @discussion Users of this class must implement this protocol.
  */
 @protocol JKExpandTableViewDataSource <NSObject>
 @required
 /*!
- 
- @return The total number of parent cells in this table.
+
+   @return The total number of parent cells in this table.
  */
-- (NSInteger) numberOfParentCells;
+- (NSInteger)numberOfParentCells;
 /*!
- @param parentIndex The parent index in question
- @return The total number of children cells under each parent in this table.
+   @param parentIndex The parent index in question
+   @return The total number of children cells under each parent in this table.
  */
-- (NSInteger) numberOfChildCellsUnderParentIndex:(NSInteger) parentIndex;
+- (NSInteger)numberOfChildCellsUnderParentIndex:(NSInteger)parentIndex;
 /*!
- @param parentIndex The parent index in question
- @return The label string shown on the parent cell.
+   @param parentIndex The parent index in question
+   @return The label string shown on the parent cell.
  */
-- (NSString *) labelForParentCellAtIndex:(NSInteger) parentIndex;
+- (NSString *)labelForParentCellAtIndex:(NSInteger)parentIndex;
 
 /*!
- @param childIndex The child index in question
- @param parentIndex The parent index in question
- @return The label string shown on the child cell.
+   @param childIndex The child index in question
+   @param parentIndex The parent index in question
+   @return The label string shown on the child cell.
  */
-- (NSString *) labelForCellAtChildIndex:(NSInteger) childIndex withinParentCellIndex:(NSInteger) parentIndex;
+- (NSString *)labelForCellAtChildIndex:(NSInteger)childIndex withinParentCellIndex:(NSInteger)parentIndex;
 
 /*!
- @param childIndex The child index in question
- @param parentIndex The parent index in question
- @return YES if the child is selected.  Otherwise, NO.
+   @param childIndex The child index in question
+   @param parentIndex The parent index in question
+   @return YES if the child is selected.  Otherwise, NO.
  */
-- (BOOL) shouldDisplaySelectedStateForCellAtChildIndex:(NSInteger) childIndex withinParentCellIndex:(NSInteger) parentIndex;
+- (BOOL)shouldDisplaySelectedStateForCellAtChildIndex:(NSInteger)childIndex withinParentCellIndex:(NSInteger)parentIndex;
 
 @optional
 
 /*! Optional method
- 
- @param parentIndex The parent index in question
- @return UIImage shown to the left of the label for the parent.
+
+   @param parentIndex The parent index in question
+   @return UIImage shown to the left of the label for the parent.
  */
-- (UIImage *) iconForParentCellAtIndex:(NSInteger) parentIndex;
+- (UIImage *)iconForParentCellAtIndex:(NSInteger)parentIndex;
 
 /*! Optional method
- 
- @param childIndex The child index in question
- @param parentIndex The parent index in question
- @return UIImage shown to the left of the label for the child.
+
+   @param childIndex The child index in question
+   @param parentIndex The parent index in question
+   @return UIImage shown to the left of the label for the child.
  */
-- (UIImage *) iconForCellAtChildIndex:(NSInteger) childIndex withinParentCellIndex:(NSInteger) parentIndex;
+- (UIImage *)iconForCellAtChildIndex:(NSInteger)childIndex withinParentCellIndex:(NSInteger)parentIndex;
 
 /*! Optional method
- 
- @return YES if the parent icon should be rotated 90 degrees when parent is toggled.  Otherwise, return NO.
+
+   @return YES if the parent icon should be rotated 90 degrees when parent is toggled.  Otherwise, return NO.
  */
-- (BOOL) shouldRotateIconForParentOnToggle;
+- (BOOL)shouldRotateIconForParentOnToggle;
 @end
 
 @interface JKExpandTableView : UITableView
-    <UITableViewDataSource, UITableViewDelegate, JKSubTableViewCellDelegate> {
-    __weak id tableViewDelegate;
-    __weak id dataSourceDelegate;
-    NSMutableArray * expansionStates;
+	<UITableViewDataSource, UITableViewDelegate, JKSubTableViewCellDelegate> {
+	__weak id tableViewDelegate;
+	__weak id dataSourceDelegate;
+	NSMutableArray *expansionStates;
 }
 
-@property(nonatomic,weak) id<JKExpandTableViewDelegate> tableViewDelegate;
-@property(nonatomic,weak,getter = getDataSourceDelegate, setter = setDataSourceDelegate:) id<JKExpandTableViewDataSource> dataSourceDelegate;
-@property(nonatomic,strong) NSMutableArray * expansionStates;
+@property(nonatomic, weak) id<JKExpandTableViewDelegate> tableViewDelegate;
+@property(nonatomic, weak, getter = getDataSourceDelegate, setter = setDataSourceDelegate :) id<JKExpandTableViewDataSource> dataSourceDelegate;
+@property(nonatomic, strong) NSMutableArray *expansionStates;
 
 @end

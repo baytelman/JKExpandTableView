@@ -18,14 +18,22 @@
 @property (nonatomic,strong) UIImageView *iconImage;
 @property (nonatomic,strong) UILabel *label;
 @property (nonatomic,strong) UIImage *selectionIndicatorImg;
+@property (nonatomic) BOOL displaysPartialSelectionIndicator;
+@property (nonatomic,strong) UIImage *partialSelectionIndicatorImg;
 @property (nonatomic,strong) UIImageView *selectionIndicatorImgView;
 @property (nonatomic) NSInteger parentIndex;
+
+typedef enum : NSUInteger {
+    JKParentSelectionIndicatorNone,
+    JKParentSelectionIndicatorAll,
+    JKParentSelectionIndicatorPartial,
+} JKParentSelectionIndicatorState;
 
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 - (void)setupDisplay;
 - (void)rotateIconToExpanded;
 - (void)rotateIconToCollapsed;
-- (void)selectionIndicatorState:(BOOL) visible;
+- (void)selectionIndicatorState:(JKParentSelectionIndicatorState)state;
 - (void)setCellForegroundColor:(UIColor *) foregroundColor;
 - (void)setCellBackgroundColor:(UIColor *) backgroundColor;
 

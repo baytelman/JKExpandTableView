@@ -266,6 +266,14 @@
             [cell setCellForegroundColor:fgColor];
         }
         
+        if ([self.tableViewDelegate respondsToSelector:@selector(displaysPartialSelectionIndicator)]) {
+            [cell setDisplaysPartialSelectionIndicator:[self.tableViewDelegate displaysPartialSelectionIndicator]];
+        }
+
+        if ([self.tableViewDelegate respondsToSelector:@selector(partialSelectionIndicatorIcon)]) {
+            [cell setPartialSelectionIndicatorImg:[self.tableViewDelegate partialSelectionIndicatorIcon]];
+        }
+
         if ([self.tableViewDelegate respondsToSelector:@selector(selectionIndicatorIcon)]) {
             [cell setSelectionIndicatorImg:[self.tableViewDelegate selectionIndicatorIcon]];
         }
@@ -376,16 +384,25 @@
     }
 }
 
-- (BOOL) hasSelectedChild:(NSUInteger) parentIndex {
+- (BOOL) hasSelectedChild:(JKParentSelectionIndicatorState) parentIndex {
     NSInteger numberOfChildren = [self.dataSourceDelegate numberOfChildCellsUnderParentIndex:parentIndex];
-    BOOL result = NO;
+    NSInteger numberOfSelectedChildren = 0;
     for (int i = 0; i < numberOfChildren ; i++) {
         if ([self.dataSourceDelegate shouldDisplaySelectedStateForCellAtChildIndex:i withinParentCellIndex:parentIndex]) {
-            result = YES;
-            break;
+            ++numberOfSelectedChildren;
+            
+            if (![self.tableViewDelegate respondsToSelector:@selector(displaysPartialSelectionIndicator)] || ![self.tableViewDelegate displaysPartialSelectionIndicator]) {
+                return JKParentSelectionIndicatorAll;
+            }
         }
     }
-    return result;
+    if (numberOfSelectedChildren == 0) {
+        return JKParentSelectionIndicatorNone;
+    }
+    if (numberOfSelectedChildren == numberOfChildren) {
+        return JKParentSelectionIndicatorAll;
+    }
+    return JKParentSelectionIndicatorPartial;
 }
 
 @end

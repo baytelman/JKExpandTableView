@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B292D90018A1E50D00B8D492 /* partial.png in Resources */ = {isa = PBXBuildFile; fileRef = B292D8FE18A1E50D00B8D492 /* partial.png */; };
+		B292D90118A1E50D00B8D492 /* partial@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B292D8FF18A1E50D00B8D492 /* partial@2x.png */; };
 		B7C7C7D417A21C160046DDCE /* cat.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C7C7D317A21C160046DDCE /* cat.png */; };
 		B7C7C7D617A21C1F0046DDCE /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = B7C7C7D517A21C1F0046DDCE /* heart.png */; };
 		B7D377F317A327400001F5BC /* SimpleExampleViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = B7D377F217A327400001F5BC /* SimpleExampleViewControllerPad.xib */; };
@@ -73,6 +75,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B292D8FE18A1E50D00B8D492 /* partial.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = partial.png; sourceTree = "<group>"; };
+		B292D8FF18A1E50D00B8D492 /* partial@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "partial@2x.png"; sourceTree = "<group>"; };
 		B7C7C7D317A21C160046DDCE /* cat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cat.png; sourceTree = "<group>"; };
 		B7C7C7D517A21C1F0046DDCE /* heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart.png; sourceTree = "<group>"; };
 		B7D377F217A327400001F5BC /* SimpleExampleViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SimpleExampleViewControllerPad.xib; sourceTree = "<group>"; };
@@ -254,6 +258,8 @@
 		B7E3106117A0D9910049FD09 /* img */ = {
 			isa = PBXGroup;
 			children = (
+				B292D8FE18A1E50D00B8D492 /* partial.png */,
+				B292D8FF18A1E50D00B8D492 /* partial@2x.png */,
 				B7E3106217A0D9910049FD09 /* arrow-icon.png */,
 				B7E3106317A0D9910049FD09 /* arrow-icon@2x.png */,
 				B7E3106417A0D9910049FD09 /* checkmark.png */,
@@ -350,6 +356,7 @@
 			files = (
 				B7E3109417A0DB8B0049FD09 /* arrow-icon.png in Resources */,
 				B7E3109517A0DB8B0049FD09 /* arrow-icon@2x.png in Resources */,
+				B292D90118A1E50D00B8D492 /* partial@2x.png in Resources */,
 				B7E3109617A0DB8B0049FD09 /* checkmark.png in Resources */,
 				B7E3109717A0DB8B0049FD09 /* checkmark@2x.png in Resources */,
 				B7E3108717A0DB400049FD09 /* SimpleExampleViewController.xib in Resources */,
@@ -360,6 +367,7 @@
 				B7E3108317A0D9E80049FD09 /* green_checkmark.png in Resources */,
 				B7D7223517A1DC8C005680A5 /* green_checkmark@2x.png in Resources */,
 				B7D7223617A1DC8C005680A5 /* smartphone.png in Resources */,
+				B292D90018A1E50D00B8D492 /* partial.png in Resources */,
 				B7C7C7D417A21C160046DDCE /* cat.png in Resources */,
 				B7C7C7D617A21C1F0046DDCE /* heart.png in Resources */,
 				B7D377F317A327400001F5BC /* SimpleExampleViewControllerPad.xib in Resources */,
