@@ -44,23 +44,23 @@
 	self.dataModelArray = [[NSMutableArray alloc] initWithCapacity:3];
 
 	NSMutableArray *parent0 = [NSMutableArray arrayWithObjects:
-							   [NSNumber numberWithBool:YES],
-							   [NSNumber numberWithBool:NO],
-							   [NSNumber numberWithBool:NO],
+							   @(YES),
+							   @(NO),
+							   @(NO),
 							   nil];
 	NSMutableArray *parent1 = [NSMutableArray arrayWithObjects:
-							   [NSNumber numberWithBool:NO],
-							   [NSNumber numberWithBool:NO],
-							   [NSNumber numberWithBool:NO],
+							   @(NO),
+							   @(NO),
+							   @(NO),
 							   nil];
 	NSMutableArray *parent2 = [NSMutableArray arrayWithObjects:
-							   [NSNumber numberWithBool:NO],
-							   [NSNumber numberWithBool:YES],
+							   @(NO),
+							   @(YES),
 							   nil];
 	NSMutableArray *parent3 = [NSMutableArray arrayWithObjects:
-							   [NSNumber numberWithBool:NO],
-							   [NSNumber numberWithBool:YES],
-							   [NSNumber numberWithBool:NO],
+							   @(NO),
+							   @(YES),
+							   @(NO),
 							   nil];
 	[self.dataModelArray addObject:parent0];
 	[self.dataModelArray addObject:parent1];
@@ -82,13 +82,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectCellAtChildIndex:(NSInteger)childIndex withInParentCellIndex:(NSInteger)parentIndex
 {
-	[[self.dataModelArray objectAtIndex:parentIndex] setObject:[NSNumber numberWithBool:YES] atIndex:childIndex];
+    self.dataModelArray[parentIndex][childIndex] = @(YES);
 	NSLog(@"data array: %@", self.dataModelArray);
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectCellAtChildIndex:(NSInteger)childIndex withInParentCellIndex:(NSInteger)parentIndex
 {
-	[[self.dataModelArray objectAtIndex:parentIndex] setObject:[NSNumber numberWithBool:NO] atIndex:childIndex];
+    self.dataModelArray[parentIndex][childIndex] = @(NO);
 	NSLog(@"data array: %@", self.dataModelArray);
 }
 
@@ -99,7 +99,19 @@
 
 - (BOOL)tableView:(UITableView *)tableView handleParentCellSelectionIndicatotTapAtIndex:(NSInteger)parentIndex
 {
-	return [expandTableView isParentExpandedAtIndex:parentIndex];
+	if ([expandTableView isParentExpandedAtIndex:parentIndex]) {
+        
+        BOOL target = YES;
+        if ([expandTableView hasSelectedChild:parentIndex] == JKExpandedTableSelectionIndicatorAll) {
+            target = NO;
+        }
+        for (int childIndex = 0; childIndex < [[self.dataModelArray objectAtIndex:parentIndex] count]; childIndex++) {
+            self.dataModelArray[parentIndex][childIndex] = @(target);
+        }
+        [expandTableView reloadData];
+        return YES;
+    }
+    return NO;
 }
 
 /*
