@@ -349,7 +349,7 @@
 		}
         
 		// else, if not handled or doesn't respond to:
-		[self tableView:self didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:[pCell parentIndex] inSection:0]];
+		[self tableView:self didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:[self rowForParentIndex:[pCell parentIndex]] inSection:0]];
 	}
 }
 
