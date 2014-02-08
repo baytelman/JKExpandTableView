@@ -172,5 +172,6 @@ typedef enum : NSUInteger {
 
 @interface JKExpandTableView (StoreAndRetrieve)
 - (void)storeCurrentExpandedParentsInto:(NSUserDefaults*)userDefaults;
-- (void)restoreCurrentExpandedParentsFrom:(NSUserDefaults*)userDefaults;
+- (void)restoreCurrentExpandedParentsFrom:(NSUserDefaults*)userDefaults
+                                  default:(BOOL)expanded;
 @end

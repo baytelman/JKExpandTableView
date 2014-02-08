@@ -502,13 +502,18 @@
     }
 }
 - (void)restoreCurrentExpandedParentsFrom:(NSUserDefaults*)userDefaults
+                                  default:(BOOL)expanded
 {
     for (NSInteger i = 0; i < [self.dataSourceDelegate numberOfParentCells]; i++) {
         NSString * label = [self.dataSourceDelegate labelForParentCellAtIndex:i];
         if (label) {
             label = [NSString stringWithFormat:@"com.jkexpandedtableview.storedstate.%@", [self _strip:label]];
-            BOOL expand = [userDefaults boolForKey:label];
-            if (expand) {
+            BOOL expandThis = expanded;
+            NSNumber * expandValue = [userDefaults valueForKey:label];
+            if (expandValue) {
+                expandThis = [expandValue boolValue];
+            }
+            if (expandThis) {
                 NSInteger cellIndex = [self rowForParentIndex:i];
                 [self expandForParentAtRow:cellIndex];
                 UITableViewCell *selectedCell = [self cellForRowAtIndexPath:[NSIndexPath indexPathForRow:cellIndex inSection:0]];
