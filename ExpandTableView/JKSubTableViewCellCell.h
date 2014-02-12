@@ -7,17 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JKSubTableViewCell.h"
 
-@interface JKSubTableViewCellCell : UITableViewCell {
-    UIImageView *iconImage;
-    UILabel *titleLabel;
-    UIImageView *selectionIndicatorImg;
-}
+@interface JKSubTableViewCellCell : UITableViewCell
 
+@property (weak) id<JKSubTableViewCellDelegate> delegate;
 @property (nonatomic,strong) UIImageView *iconImage;
 @property (nonatomic,strong) UILabel *titleLabel;
-@property (nonatomic,strong) UIImageView *selectionIndicatorImg;
-
+@property (nonatomic,strong) UIImageView *selectionOnIndicatorImg;
+@property (nonatomic,strong) UIImageView *selectionOffIndicatorImg;
 
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 - (void)setupDisplay;

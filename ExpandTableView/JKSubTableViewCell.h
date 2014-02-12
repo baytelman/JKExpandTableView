@@ -24,6 +24,8 @@
 - (NSString *) labelForChildIndex:(NSInteger)childIndex underParentIndex:(NSInteger)parentIndex;
 // get the icon image
 - (UIImage *) iconForChildIndex:(NSInteger)childIndex underParentIndex:(NSInteger)parentIndex;
+
+- (CGFloat)indentForChildren;
 @end
 
 @interface JKSubTableViewCell : UITableViewCell <UITableViewDataSource,UITableViewDelegate> {
@@ -38,13 +40,14 @@
 @property(nonatomic,strong) UITableView *insideTableView;
 @property(nonatomic,weak,getter = getDelegate, setter = setDelegate:) id<JKSubTableViewCellDelegate> delegate;
 @property(nonatomic) NSInteger parentIndex;
-@property(nonatomic,strong) UIImage *selectionIndicatorImg;
+@property(nonatomic,strong) UIImage *selectionOnIndicatorImg;
+@property(nonatomic,strong) UIImage *selectionOffIndicatorImg;
 
 @property(nonatomic,strong,getter = getSubTableForegroundColor, setter = setSubTableForegroundColor:) UIColor *fgColor;
 @property(nonatomic,strong,getter = getSubTableBackgroundColor, setter = setSubTableBackgroundColor:) UIColor *bgColor;
 @property(nonatomic,strong,getter = getSubTableFont, setter = setSubTableFont:) UIFont *font;
 
-- (UIImage *) selectionIndicatorImgOrDefault;
+- (UIImage *) selectionOnIndicatorImgOrDefault;
 - (void) reload;
 
 @end

@@ -9,8 +9,5 @@
 #import <UIKit/UIKit.h>
 #import "JKSubTableViewCell.h"
 
-@interface JKMultiSelectSubTableViewCell : JKSubTableViewCell {
-
-}
-
+@interface JKMultiSelectSubTableViewCell : JKSubTableViewCell
 @end

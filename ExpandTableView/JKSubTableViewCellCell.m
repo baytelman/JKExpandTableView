@@ -9,7 +9,6 @@
 #import "JKSubTableViewCellCell.h"
 
 @implementation JKSubTableViewCellCell
-@synthesize titleLabel, iconImage, selectionIndicatorImg;
 
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
@@ -23,17 +22,22 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     self.iconImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [self.contentView addSubview:iconImage];
+    [self.contentView addSubview:self.iconImage];
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.opaque = NO;
-    titleLabel.textColor = [UIColor blackColor];
-    titleLabel.textAlignment = NSTextAlignmentLeft;
-    [self.contentView addSubview:titleLabel];
+    self.titleLabel.backgroundColor = [UIColor clearColor];
+    self.titleLabel.opaque = NO;
+    self.titleLabel.textColor = [UIColor blackColor];
+    self.titleLabel.textAlignment = NSTextAlignmentLeft;
+    [self.contentView addSubview:self.titleLabel];
     
-    self.selectionIndicatorImg = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [self.contentView addSubview:selectionIndicatorImg];
+    self.selectionOnIndicatorImg = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [self.contentView addSubview:self.selectionOnIndicatorImg];
+    self.selectionOnIndicatorImg.contentMode = UIViewContentModeCenter;
+    
+    self.selectionOffIndicatorImg = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [self.contentView addSubview:self.selectionOffIndicatorImg];
+    self.selectionOffIndicatorImg.contentMode = UIViewContentModeCenter;
     
     return self;
 }
@@ -56,14 +60,30 @@
         iconWidth = MIN(contentAreaWidth, self.iconImage.image.size.width);
         iconHeight = MIN(contentAreaHeight, self.iconImage.image.size.height);
     }
-    if (self.selectionIndicatorImg.image) {
-        checkMarkWidth = MIN(contentAreaWidth, self.selectionIndicatorImg.image.size.width);
-        checkMarkHeight = MIN(contentAreaHeight, self.selectionIndicatorImg.image.size.height);
+    if (self.selectionOnIndicatorImg.image) {
+        checkMarkWidth = MIN(contentAreaWidth, self.selectionOnIndicatorImg.image.size.width);
+        checkMarkHeight = MIN(contentAreaHeight, self.selectionOnIndicatorImg.image.size.height);
+    }
+    if (self.selectionOffIndicatorImg.image) {
+        checkMarkWidth = MIN(contentAreaWidth, self.selectionOffIndicatorImg.image.size.width);
+        checkMarkHeight = MIN(contentAreaHeight, self.selectionOffIndicatorImg.image.size.height);
     }
     
     CGFloat sidePadding = 22.0;
+    
+    if ([self.delegate respondsToSelector:@selector(indentForChildren)]) {
+        CGFloat _delPad = [self.delegate indentForChildren];
+        if (_delPad >= sidePadding) {
+            sidePadding = _delPad;
+        }
+    }
+
     CGFloat icon2LabelPadding = 6.0;
     CGFloat checkMarkPadding = 16.0;
+    
+    checkMarkWidth += checkMarkPadding * 2;
+    checkMarkHeight += checkMarkPadding * 2;
+    
     [self.contentView setAutoresizesSubviews:YES];
     
     self.iconImage.frame = CGRectMake(sidePadding, (contentAreaHeight - iconHeight)/2, iconWidth, iconHeight);
@@ -77,16 +97,15 @@
     //self.titleLabel.backgroundColor = [UIColor purpleColor];
     //self.selectionIndicatorImg.backgroundColor = [UIColor yellowColor];
     
-    self.selectionIndicatorImg.frame = CGRectMake(contentAreaWidth - checkMarkWidth - checkMarkPadding,
-                                                      (contentRect.size.height/2)-(checkMarkHeight/2),
-                                                      checkMarkWidth,
-                                                      checkMarkHeight);
-    
-    
+    self.selectionOnIndicatorImg.frame = CGRectMake(contentAreaWidth - checkMarkWidth,
+                                                  (contentRect.size.height/2)-(checkMarkHeight/2),
+                                                  checkMarkWidth,
+                                                  checkMarkHeight);
+    self.selectionOffIndicatorImg.frame = self.selectionOnIndicatorImg.frame;
 }
 
 - (void)setCellForegroundColor:(UIColor *) foregroundColor {
-    titleLabel.textColor = foregroundColor;
+    self.titleLabel.textColor = foregroundColor;
 }
 
 - (void)setCellBackgroundColor:(UIColor *) backgroundColor {

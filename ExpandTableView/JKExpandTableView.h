@@ -60,10 +60,15 @@
  */
 - (UIColor *)backgroundColor;
 /*! Optional method to set a custom selection indicator icon.
-
-   @return UIImage
+ 
+ @return UIImage
  */
-- (UIImage *)selectionIndicatorIcon;
+- (UIImage *)selectionOnIndicatorIcon;
+/*! Optional method to set a custom selection indicator icon.
+ 
+ @return UIImage
+ */
+- (UIImage *)selectionOffIndicatorIcon;
 /*! Optional method to display a 'none' indicator when no childs are selected.
  
  @return UIImage
@@ -89,6 +94,11 @@
    @return UIFont for the label on the children cells
  */
 - (UIFont *)fontForChildren;
+/*! Optional method to set custom Font for the labels on the Children cells.
+ 
+ @return UIFont for the label on the children cells
+ */
+- (CGFloat)indentForChildren;
 @end
 
 /*!

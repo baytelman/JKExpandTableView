@@ -16,13 +16,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     JKSubTableViewCellCell *cell = (JKSubTableViewCellCell *)[tableView cellForRowAtIndexPath:indexPath];
     BOOL isSwitchedOn = YES;
-    BOOL isRowSelected = !(cell.selectionIndicatorImg.hidden);
+    BOOL isRowSelected = !(cell.selectionOnIndicatorImg.hidden);
     
     if(isRowSelected){
-        cell.selectionIndicatorImg.hidden = true;
+        cell.selectionOnIndicatorImg.hidden = YES;
+        cell.selectionOffIndicatorImg.hidden = NO;
         isSwitchedOn = NO;
     } else {
-        cell.selectionIndicatorImg.hidden = false;
+        cell.selectionOnIndicatorImg.hidden = NO;
+        cell.selectionOffIndicatorImg.hidden = YES;
         isSwitchedOn = YES;
     }
     

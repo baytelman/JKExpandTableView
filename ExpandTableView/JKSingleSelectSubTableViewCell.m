@@ -16,13 +16,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     JKSubTableViewCellCell *cell = (JKSubTableViewCellCell *)[tableView cellForRowAtIndexPath:indexPath];
     BOOL isSwitchedOn = YES;
-    BOOL isRowSelected = !(cell.selectionIndicatorImg.hidden);
+    BOOL isRowSelected = !(cell.selectionOnIndicatorImg.hidden);
     
     if(isRowSelected){
-        cell.selectionIndicatorImg.hidden = YES;
+        cell.selectionOnIndicatorImg.hidden = YES;
+        cell.selectionOffIndicatorImg.hidden = NO;
         isSwitchedOn = NO;
     } else {
-        cell.selectionIndicatorImg.hidden = NO;
+        cell.selectionOnIndicatorImg.hidden = NO;
+        cell.selectionOffIndicatorImg.hidden = YES;
         isSwitchedOn = YES;
         
         // deselect previously selected siblings
@@ -34,7 +36,8 @@
                 if (isRowSelected) {
                     NSIndexPath *siblingIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
                     JKSubTableViewCellCell *siblingCell = (JKSubTableViewCellCell *)[tableView cellForRowAtIndexPath:siblingIndexPath];
-                    siblingCell.selectionIndicatorImg.hidden = YES;
+                    siblingCell.selectionOnIndicatorImg.hidden = YES;
+                    siblingCell.selectionOffIndicatorImg.hidden = NO;
                     [self.delegate didSelectRowAtChildIndex:i selected:NO underParentIndex:self.parentIndex];
                 }
             }

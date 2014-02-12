@@ -46,13 +46,13 @@
 - (void)setupImages
 {
 	if (!self.selectionIndicatorImg) {
-		self.selectionIndicatorImg = [UIImage imageNamed:@"checkmark"];
+		self.selectionIndicatorImg = [UIImage imageNamed:@"filter-checkmark"];
 	}
 	if (!self.partialSelectionIndicatorImg) {
-		self.partialSelectionIndicatorImg = [UIImage imageNamed:@"partial"];
+		self.partialSelectionIndicatorImg = [UIImage imageNamed:@"filter-partial"];
 	}
 	if (!self.noneSelectionIndicatorImg) {
-		self.noneSelectionIndicatorImg = [UIImage imageNamed:@"none"];
+		self.noneSelectionIndicatorImg = [UIImage imageNamed:@"filter-none"];
 	}
 }
 

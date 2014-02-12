@@ -39,22 +39,6 @@
 	return self;
 }
 
-/* not working. override animation for insert and delete for custom animation
- - (void)insertRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation
- {
- for (NSIndexPath *indexPath in indexPaths)
- {
- UITableViewCell *cell = [self tableView:self cellForRowAtIndexPath:indexPath];
- [cell setFrame:CGRectMake(320, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
- 
- [UIView beginAnimations:NULL context:nil];
- [UIView setAnimationDuration:1];
- [cell setFrame:CGRectMake(0, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
- [UIView commitAnimations];
- }
- }
- */
-
 - (void)initialize
 {
 	[self setDataSource:self];
@@ -214,8 +198,12 @@
 				[cell setSubTableForegroundColor:fgColor];
 			}
             
-			if ([self.tableViewDelegate respondsToSelector:@selector(selectionIndicatorIcon)]) {
-				[cell setSelectionIndicatorImg:[self.tableViewDelegate selectionIndicatorIcon]];
+			if ([self.tableViewDelegate respondsToSelector:@selector(selectionOnIndicatorIcon)]) {
+				[cell setSelectionOnIndicatorImg:[self.tableViewDelegate selectionOnIndicatorIcon]];
+			}
+            
+			if ([self.tableViewDelegate respondsToSelector:@selector(selectionOffIndicatorIcon)]) {
+				[cell setSelectionOffIndicatorImg:[self.tableViewDelegate selectionOffIndicatorIcon]];
 			}
             
 			NSLog(@"cellForRowAtIndexPath MultiSelect parentIndex: %d", parentIndex);
@@ -241,8 +229,12 @@
 				[cell setSubTableForegroundColor:fgColor];
 			}
             
-			if ([self.tableViewDelegate respondsToSelector:@selector(selectionIndicatorIcon)]) {
-				[cell setSelectionIndicatorImg:[self.tableViewDelegate selectionIndicatorIcon]];
+			if ([self.tableViewDelegate respondsToSelector:@selector(selectionOnIndicatorIcon)]) {
+				[cell setSelectionOnIndicatorImg:[self.tableViewDelegate selectionOnIndicatorIcon]];
+			}
+            
+			if ([self.tableViewDelegate respondsToSelector:@selector(selectionOffIndicatorIcon)]) {
+				[cell setSelectionOffIndicatorImg:[self.tableViewDelegate selectionOffIndicatorIcon]];
 			}
             
 			if ([self.tableViewDelegate respondsToSelector:@selector(fontForChildren)]) {
@@ -283,8 +275,8 @@
 			[cell setPartialSelectionIndicatorImg:[self.tableViewDelegate partialSelectionIndicatorIcon]];
 		}
         
-		if ([self.tableViewDelegate respondsToSelector:@selector(selectionIndicatorIcon)]) {
-			[cell setSelectionIndicatorImg:[self.tableViewDelegate selectionIndicatorIcon]];
+		if ([self.tableViewDelegate respondsToSelector:@selector(selectionOnIndicatorIcon)]) {
+			[cell setSelectionIndicatorImg:[self.tableViewDelegate selectionOnIndicatorIcon]];
 		}
         
 		if ([self.tableViewDelegate respondsToSelector:@selector(fontForParents)]) {
@@ -427,7 +419,13 @@
 		return nil;
 	}
 }
-
+- (CGFloat)indentForChildren
+{
+    if ([self.tableViewDelegate respondsToSelector:@selector(indentForChildren)]) {
+        return [self.tableViewDelegate indentForChildren];
+    }
+    return -1;
+}
 @end
 
 @implementation JKExpandTableView (CurrentStatus)

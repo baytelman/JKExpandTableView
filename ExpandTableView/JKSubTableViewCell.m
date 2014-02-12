@@ -11,7 +11,7 @@
 
 @implementation JKSubTableViewCell
 
-@synthesize insideTableView, selectionIndicatorImg;
+@synthesize insideTableView;
 
 #define HEIGHT_FOR_CELL 44.0
 
@@ -20,6 +20,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.insideTableView = [[UITableView alloc] init];
+        self.insideTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
         insideTableView.dataSource = self;
         insideTableView.delegate = self;
         [self setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
@@ -76,11 +78,17 @@
     font = p_font;
 }
 
-- (UIImage *) selectionIndicatorImgOrDefault {
-    if (!self.selectionIndicatorImg) {
-        self.selectionIndicatorImg = [UIImage imageNamed:@"checkmark"];
+- (UIImage *) selectionOnIndicatorImgOrDefault {
+    if (!self.selectionOnIndicatorImg) {
+        self.selectionOnIndicatorImg = [UIImage imageNamed:@"filter-on"];
     }
-    return self.selectionIndicatorImg;
+    return self.selectionOnIndicatorImg;
+}
+- (UIImage *) selectionOffIndicatorImgOrDefault {
+    if (!self.selectionOffIndicatorImg) {
+        self.selectionOffIndicatorImg = [UIImage imageNamed:@"filter-off"];
+    }
+    return self.selectionOffIndicatorImg;
 }
 
 - (void) reload {
@@ -103,21 +111,27 @@
     JKSubTableViewCellCell *cell = (JKSubTableViewCellCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[JKSubTableViewCellCell alloc] initWithReuseIdentifier:CellIdentifier];
+        cell.delegate = self.delegate;
     } else {
+#if DEBUG
         NSLog(@"reusing existing JKSubTableViewCellCell");
+#endif
     }
     
     NSInteger row = [indexPath row];
     cell.titleLabel.text = [self.delegate labelForChildIndex:row underParentIndex:self.parentIndex];
     cell.iconImage.image = [self.delegate iconForChildIndex:row underParentIndex:self.parentIndex];
-    cell.selectionIndicatorImg.image = [self selectionIndicatorImgOrDefault];
+    cell.selectionOnIndicatorImg.image = [self selectionOnIndicatorImgOrDefault];
+    cell.selectionOffIndicatorImg.image = [self selectionOffIndicatorImgOrDefault];
     
     BOOL isRowSelected = [self.delegate isSelectedForChildIndex:row underParentIndex:self.parentIndex];
     
     if (isRowSelected) {
-        cell.selectionIndicatorImg.hidden = NO;
+        cell.selectionOnIndicatorImg.hidden = NO;
+        cell.selectionOffIndicatorImg.hidden = YES;
     } else {
-        cell.selectionIndicatorImg.hidden = YES;
+        cell.selectionOnIndicatorImg.hidden = YES;
+        cell.selectionOffIndicatorImg.hidden = NO;
     }
     
     [cell setCellBackgroundColor:bgColor];
