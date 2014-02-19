@@ -137,7 +137,6 @@
 			i++;
 		}
 	}
-	NSLog(@"parentIndexForRow row: %d parentIndex: %d", row, parentIndex);
 	return parentIndex;
 }
 
@@ -184,8 +183,6 @@
 			JKMultiSelectSubTableViewCell *cell = (JKMultiSelectSubTableViewCell *)[self dequeueReusableCellWithIdentifier:CellIdentifier_MultiSelect];
 			if (cell == nil) {
 				cell = [[JKMultiSelectSubTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier_MultiSelect];
-			} else {
-				NSLog(@"reusing existing JKMultiSelectSubTableViewCell");
 			}
             
 			if ([self.tableViewDelegate respondsToSelector:@selector(backgroundColor)]) {
@@ -206,7 +203,6 @@
 				[cell setSelectionOffIndicatorImg:[self.tableViewDelegate selectionOffIndicatorIcon]];
 			}
             
-			NSLog(@"cellForRowAtIndexPath MultiSelect parentIndex: %d", parentIndex);
 			[cell setParentIndex:parentIndex];
 			[cell setDelegate:self];
 			[cell reload];
@@ -215,8 +211,6 @@
 			JKSingleSelectSubTableViewCell *cell = (JKSingleSelectSubTableViewCell *)[self dequeueReusableCellWithIdentifier:CellIdentifier_SingleSelect];
 			if (cell == nil) {
 				cell = [[JKSingleSelectSubTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier_SingleSelect];
-			} else {
-				NSLog(@"reusing existing JKSingleSelectSubTableViewCell");
 			}
             
 			if ([self.tableViewDelegate respondsToSelector:@selector(backgroundColor)]) {
@@ -242,7 +236,6 @@
 				[cell setSubTableFont:font];
 			}
             
-			NSLog(@"cellForRowAtIndexPath SingleSelect parentIndex: %d", parentIndex);
 			[cell setParentIndex:parentIndex];
 			[cell setDelegate:self];
 			[cell reload];
@@ -253,8 +246,6 @@
 		JKParentTableViewCell *cell = (JKParentTableViewCell *)[self dequeueReusableCellWithIdentifier:CellIdentifier_Parent];
 		if (cell == nil) {
 			cell = [[JKParentTableViewCell alloc] initWithReuseIdentifier:CellIdentifier_Parent];
-		} else {
-			NSLog(@"reusing existing JKParentTableViewCell");
 		}
         
 		if ([self.tableViewDelegate respondsToSelector:@selector(backgroundColor)]) {
@@ -309,7 +300,6 @@
 {
 	NSInteger row = indexPath.row;
     
-	NSLog(@"heightForRowAtIndexPath row: %d", row);
 	// if cell is expanded, the cell height would be a multiple of the number of child cells
 	BOOL isExpansionCell = [self isExpansionCell:row];
 	if (isExpansionCell) {
