@@ -16,6 +16,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '6.0'
   s.requires_arc = true
 
-  s.source_files = 'JKExpandTableView/**/*.{h, m}'
+  s.resources = 'Assets/*.png'
+  s.source_files = 'JKExpandTableView', 'JKExpandTableView/**/*.{h, m}'
   s.frameworks = 'UIKit'
 end
