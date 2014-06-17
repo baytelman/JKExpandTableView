@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "JKExpandTableView"
-  s.version          = File.read('VERSION')
+  s.version          = "0.1.1"
   s.summary          = "Expandable Nested Table View for iOS."
   s.description      = <<-DESC
                        Expandable Nested Table View for iOS (iPhone & iPad).
